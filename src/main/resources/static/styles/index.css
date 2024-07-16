@@ -1,0 +1,12 @@
+body, html {
+    width: 100%;
+}
+
+a {
+    color: white;
+    text-decoration: underline;
+}
+
+a:visited {
+    text-decoration: none;
+}

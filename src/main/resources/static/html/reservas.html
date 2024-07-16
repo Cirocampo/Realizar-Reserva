@@ -1,0 +1,420 @@
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+        <title>MackDorms - Reservas</title>
+        <meta charset="UTF-8">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    </head>
+		<link href="./styles/index.css" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+		<script src="../js/helpers.js"></script>
+		<style>
+			input[type="date"]::-webkit-calendar-picker-indicator {
+				filter: invert(1);
+			}
+			input[type=number]::-webkit-inner-spin-button,
+			input[type=number]::-webkit-outer-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+			input[type=number] {
+				-moz-appearance: textfield;
+			}
+			body, html {
+				height: 100%;
+				background-color: #373b3e;
+			}
+		</style>
+	</head>
+    
+    <body class="d-flex flex-column">
+
+        <header class="p-3 ps-3 container-fluid d-flex align-items-center bg-light justify-content-between" style="gap: 20px;" >
+			<div class="d-flex align-items-center" style="gap: 20px">
+				<h1><a href="./index.html" class="text-reset text-decoration-none">Hotel MackDorms</a></h1>
+				<a href="./hospedes.html" class="fs-3 text-secondary text-decoration-none ">Hóspedes</a>
+				<a href="./reservas.html" class="fs-3 text-secondary text-decoration-none ">Reservas</a>
+			</div>
+			<div>
+				<button id="signOutButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLogout">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+						<path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+					</svg>
+					<i class="fas fa-sign-out-alt"></i> Logout
+				</button>
+			</div>
+		</header>
+
+		<div class="modal" tabindex="-1" id="modalLogout">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Deseja deslogar?</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" onclick="logout()">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+								<path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+								<path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+							</svg>
+							Logout
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container-fluid d-flex flex-column align-items-center ps-0 pe-0 flex-grow-1">
+			
+			<div class="container-fluid row pt-0 ps-0 pe-0 border-end-0 shadow" style="height: 100%;">
+				<div class="col-md-4 pt-3 ps-4 pe-4" style="background-color: #212529;">
+					<div class="container text-center text-white">
+						<h1>Gerenciamento de reservas</h1>
+					</div>
+					<form class="row mb-4 g-3 needs-validation" novalidate>
+						<div class="col-md-2">
+							<label for="txtId" class="form-label text-white">ID</label>
+							<input type="text" class="form-control text-white btn-outline-secondary" style="background-color: #1a1d20;"id="txtId" required>
+						</div>
+						<div class="col-md-10">
+							<label for="txtCheckIn" class="form-label text-white">Check-in</label>
+							<input type="date" class="form-control text-white btn-outline-secondary" style="background-color: #1a1d20;" id="txtCheckIn" required>
+							<div class="invalid-feedback">
+								Insira a data de check-in válida.
+							</div>
+						</div>
+						<div class="col-md-12">
+							<label for="txtCheckOut" class="form-label text-white">Check-out</label>
+							<input type="date" class="form-control text-white btn-outline-secondary" style="background-color: #1a1d20;" id="txtCheckOut" required>
+							<div class="invalid-feedback">
+								Insira a data de check-out válida.
+							</div>
+						</div>
+						<div class="col-md-8">
+							<label for="txtValor" class="form-label text-white">Valor</label>
+							<input type="number" class="form-control text-white btn-outline-secondary" style="background-color: #1a1d20;" id="txtValor" min="1" placeholder="$" required>
+							<div class="invalid-feedback">
+								Insira um valor válido.
+							</div>
+						</div>
+						<div class="col-md-4">
+							<label for="txtHospede" class="form-label text-white">Hóspede</label>
+							<select class="form-select text-white btn-outline-secondary" style="background-color: #1a1d20;" id="txtHospede" required aria-label="Default select example">
+								<option selected value="-1"></option>
+							</select>
+							<div class="invalid-feedback">
+								Escolha um hóspede.
+							</div>
+						</div>
+						<div class="col-md-12 mt-4 text-center">
+							<input type="button" class="btn btn-primary" value="Novo" onclick="novaReserva()" id="btnNovo">
+							<input type="button" class="btn btn-success" value="Salvar" onclick="salvarReserva()" id="btnSalvar">
+							<input type="button" class="btn btn-danger" value="Apagar" onclick="apagarReserva()" id="btnApagar">
+							<input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelarEdicao()" id="btnCancelar">
+						</div>
+					</form>
+					<div class="container text-center text-white">
+						<p style="font-weight:bold" id="paragrafoMensagem"></p>
+					</div>
+					<div class="container text-center text-white mt-5 pt-5">
+						<p style="color: #d1d1d1; font-size: 10px;">MackDorms&trade;</p>
+					</div>
+				</div>
+				<div class="col-md-8 ps-0 pe-0">
+					<table class="table table-dark table-striped">    
+						<tr class="table-dark"> 
+							<th class="ps-3">ID</th> 
+							<th>Check-in</th> 
+							<th>Check-out</th>
+							<th>Valor</th>
+							<th>Hóspede</th>
+							<th>Responsável</th>
+						</tr>
+						<tbody id="corpoTabelaReservas"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+        
+	    <script>
+
+			var token = localStorage.getItem('token');
+			if (!token) {
+				window.location.replace("/login.html");
+			}
+
+	        const corpoTabela = document.querySelector('#corpoTabelaReservas');
+	        const paragrafoMensagem = document.querySelector('#paragrafoMensagem');
+	        const txtCheckIn = document.querySelector('#txtCheckIn');
+	        const txtCheckOut = document.querySelector('#txtCheckOut');
+	        const txtValor = document.querySelector('#txtValor');
+			const txtHospede = document.querySelector('#txtHospede');
+	        const txtId = document.querySelector('#txtId');
+	        
+			var hospedes;
+
+	        const btnNovo = document.querySelector('#btnNovo');
+	        const btnSalvar = document.querySelector('#btnSalvar');
+	        const btnApagar = document.querySelector('#btnApagar');
+	        const btnCancelar = document.querySelector('#btnCancelar');
+	        var criandoNovaReserva = false;
+	        
+	        inicializar();
+
+	        function inicializar() {
+	        	criandoNovaReserva = false;
+	            paragrafoMensagem.innerHTML = 'Pressione o botão Novo ou selecione uma reserva da lista:'
+	            txtId.value = '';
+	            txtCheckIn.value = '';
+				txtCheckOut.value = '';
+				txtValor.value = null;
+				txtHospede.value = -1;
+
+				while (txtHospede.lastChild.value != -1) {
+					txtHospede.removeChild(txtHospede.lastChild);
+				}
+
+	            txtId.disabled = true;
+	            txtCheckIn.disabled = true;
+				txtCheckOut.disabled = true;
+				txtValor.disabled = true;
+				txtHospede.disabled = true;
+
+	            btnNovo.disabled = false;
+	            btnSalvar.disabled = true;
+	            btnApagar.disabled = true;
+	            btnCancelar.disabled = true;
+				listarTodosHospedes();
+	            listarTodasReservas();            
+	        }
+
+			document.addEventListener('DOMContentLoaded', function() {
+				var selectInput = document.getElementById('txtHospede');
+				selectInput.addEventListener('change', function() {
+					if (selectInput.value !== '-1') {
+						selectInput.classList.remove('is-invalid');
+					} else {
+						selectInput.classList.add('is-invalid');
+					}
+				});
+			});
+
+			txtCheckIn.addEventListener('change', validateDate);
+			txtCheckOut.addEventListener('change', validateDate);
+
+			function validateDate() {
+				var checkinDate = new Date(txtCheckIn.value);
+    			var checkoutDate = new Date(txtCheckOut.value);
+
+				if (checkoutDate <= checkinDate) {
+					txtCheckIn.classList.add('is-invalid');
+					txtCheckOut.classList.add('is-invalid');
+				} else {
+					txtCheckIn.classList.remove('is-invalid');
+					txtCheckOut.classList.remove('is-invalid');
+				}
+
+			}
+
+			function validarForm() {
+				var form = document.querySelector('form');
+
+				if (form.checkValidity()) {
+					if (txtHospede.value == -1) {
+						return false;
+					}
+					return true;
+				} else {
+					form.classList.add('was-validated');
+					return false;
+				}
+			}
+
+			async function listarTodosHospedes() {
+	            const URL = `/api/hospedes`;
+	            fetch(URL, {
+					method: "GET",
+					headers: {'Authorization': 'Bearer ' + token}
+				})
+	              .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta;}) 
+	              .then(resposta => resposta.json())
+	              .then(data => {
+					data.forEach(element => {
+						const option = document.createElement('option');
+						option.value = element.id;
+						option.textContent = element.id + ' - ' +  element.nome;
+						txtHospede.appendChild(option);
+					});
+				  })
+	              .catch(function(error) { paragrafoMensagem.innerHTML = "Erro ao listar hóspedes (código " + error.message + ")";});
+	        }
+
+	        async function listarTodasReservas() {
+	            const URL = `/api/reservas`;
+	            fetch(URL, {
+					method: "GET",
+					headers: {'Authorization': 'Bearer ' + token}
+				})
+	              .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta;}) 
+	              .then(resposta => resposta.json())
+	              .then(jsonResponse => preencherTabela(jsonResponse))
+	              .catch(function(error) { paragrafoMensagem.innerHTML = "Erro ao listar reservas (código " + error.message + ")";});
+	        }
+	        
+	        
+	        function preencherTabela(reservas) {
+	            var linhasTabela = '';
+	            var n = reservas.length;
+	            for (var i = 0; i < n; i++) {
+	                var f = reservas[i];
+
+					let cin = invertDateFormat(f.dataCheckIn);
+					let cout = invertDateFormat(f.dataCheckOut);
+
+	                linhasTabela += 
+	                	`<tr><td class="ps-3"><a href="javascript:void(0)" onclick="selecionarReserva('${f.id}','${f.dataCheckIn}','${f.dataCheckOut}','${f.valorReserva}','${f.hospede.id}')">` 
+	                    + f.id     + '</a></td>' + 
+	                    '<td>' + cin + '</td>' +
+	                    '<td>' + cout + '</td>' +
+	                    '<td>R$ ' + f.valorReserva.toLocaleString('pt-BR') + ',00</td>' +
+	                    '<td><a href="./hospedes.html">' + f.hospede.id + ' - ' + f.hospede.nome + '</a></td>' + 
+						'<td>' + f.user + '</td></tr>\n';
+	            }
+	            corpoTabela.innerHTML = linhasTabela;
+	        }
+
+	        function selecionarReserva(id, checkIn, checkOut, valor, hospede) {
+	        	criandoNovaReserva = false;
+	            paragrafoMensagem.innerHTML = 'Altere e salve os dados da reserva, ou então apague o registro da reserva.'
+	            txtId.value = id;
+	            txtCheckIn.value = checkIn;
+				txtCheckOut.value = checkOut;
+				txtValor.value = valor;
+				txtHospede.value = hospede;
+
+	            txtId.disabled = true;
+	            txtCheckIn.disabled = false;
+				txtCheckOut.disabled = false;
+				txtValor.disabled = false;
+				txtHospede.disabled = false;
+
+	            btnNovo.disabled = true;
+	            btnSalvar.disabled = false;
+	            btnApagar.disabled = false;
+	            btnCancelar.disabled = false;  
+	        }
+
+	        function novaReserva() {
+	        	paragrafoMensagem.innerHTML = 'Preencha os dados da nova reserva...';
+	        	criandoNovaReserva = true;
+	        	
+	        	txtId.value = '';
+	        	txtCheckIn.value = '';
+				txtCheckOut.value = '';
+				txtValor.value = null;
+				txtHospede.value = '';
+	        	
+	        	txtId.disabled = true;
+	        	txtCheckIn.disabled = false;
+				txtCheckOut.disabled = false;
+				txtValor.disabled = false;
+				txtHospede.disabled = false;
+	        	
+	        	btnNovo.disabled = true;
+	        	btnSalvar.disabled = false;
+	        	btnApagar.disabled = true;
+	        	btnCancelar.disabled = false;
+	        }
+	        
+	        function salvarReserva() {
+
+				if(!validarForm()) {
+					return;
+				}
+
+	        	if (criandoNovaReserva) {
+	        		criarReserva();
+	        	}
+	        	else {
+	        		alterarReserva();
+	        	}
+	        }
+	        
+	        async function criarReserva() {
+	        	const URL = `/api/reservas`;
+
+	        	const dadosReserva = {
+	        		'dataCheckIn': txtCheckIn.value,
+					'dataCheckOut': txtCheckOut.value,
+					'valorReserva': txtValor.value,
+					'hospede': {'id': txtHospede.value},
+					'user': localStorage.getItem('username')
+	        	};
+	        	const postRequest = {
+	        		method: 'POST',
+	        		body: JSON.stringify(dadosReserva),
+	        		headers: { 'Content-type': 'application/json', 'Authorization': 'Bearer ' + token}
+	        	};
+	        	fetch(URL, postRequest)
+	        		.then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; } )
+	        		.then(resposta => resposta.json())
+	        		.then(jsonResponse => inicializar())
+	        		.catch(function(error) { paragrafoMensagem.innerHTML = 'Erro ao criar nova reserva (código ' + error.message + ')'; } );
+	        }
+	        
+	        async function alterarReserva() {
+	        	const ID = txtId.value;
+	        	const URL = `/api/reservas/${ID}`;
+
+	        	const dadosReserva = {
+	        		'id': ID,
+	        		'dataCheckIn': txtCheckIn.value,
+					'dataCheckOut': txtCheckOut.value,
+					'valorReserva': txtValor.value,
+					'hospede': {'id': txtHospede.value},
+					'user': localStorage.getItem('username')
+	        	};
+	        	const putRequest = {
+	        		method: 'PUT',
+	        		body: JSON.stringify(dadosReserva),
+	        		headers: { 'Content-type': 'application/json', 'Authorization': 'Bearer ' + token }
+	        	};
+	        	fetch(URL, putRequest)
+	        		.then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; } )
+	        		.then(resposta => resposta.json())
+	        		.then(jsonResponse => inicializar())
+	        		.catch(function(error) { paragrafoMensagem.innerHTML = 'Erro ao alterar reserva (código ' + error.message + ')'; } );	        	
+	        }
+	        
+	        function cancelarEdicao() {
+	        	inicializar();
+	        }
+	        
+	        async function apagarReserva() {
+	        	const ID = txtId.value;
+	        	const URL = `/api/reservas/${ID}`;
+	        	const deleteRequest = {
+	        		method: 'DELETE',
+					headers: {'Authorization': 'Bearer ' + token}
+	        	};
+	        	fetch(URL, deleteRequest)
+	        		.then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; } )
+	        		.then(resposta => inicializar())
+	        		.catch(function(error) { paragrafoMensagem.innerHTML = 'Erro ao apagar reserva (código ' + error.message + ')'; } );	        		
+	        }
+
+			function logout() {
+				localStorage.removeItem('token');
+				window.location.replace("/login.html");
+			}
+	        
+	    </script>    
+    </body>
+    
+    </html>
+
+    
